@@ -1,0 +1,55 @@
+/Authentication:
+//Authentication is the process of verifying the identity of a user or application trying to access the API.here are different authentication mechanisms you can use in .NET Core, such as: 
+
+//1.Token-based Authentication:
+    a. JWT (JSON Web Tokens) Authentication:
+JSON Web Tokens are a compact, URL-safe means of representing claims between two parties. They can be used for authenticating and authorizing users. 
+JWTs are often used in stateless authentication scenarios where the server doesn't need to store user sessions.
+They consist of three parts: a header, a payload, and a signature. Here's an explanation of each part and an example of a JWT:
+
+1. Header: The header typically consists of two parts: the type of the token (JWT) and the signing algorithm being used, such as HMAC SHA256 or RSA.
+
+2. Payload: The payload contains claims. Claims are statements about an entity (typically, the user) and additional data. There are three types of claims: registered, public, and private claims.
+
+Registered Claims: These are predefined claims with specific meanings, like "iss" for the issuer, "sub" for the subject, "exp" for expiration time, and more.
+
+Public Claims: These are claims that can be defined and used by anyone but must be collision-resistant (i.e., avoid name clashes).
+
+Private Claims: These claims are typically used to share information between parties that agree on using them.
+
+3. Signature: The signature is used to verify that the sender of the JWT is who it says it is and to ensure that the message wasn't changed along the way. The signature is created using the header, payload, and a secret key (for HMAC) or a private key (for RSA).
+
+Here's an example of a JWT:
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.
+SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+
+// In Startup.cs, ConfigureServices method:
+services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = "your-issuer",
+            ValidAudience = "your-audience",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your-secret-key"))
+        };
+    });
+
+// In the controller, protect the API with the [Authorize] attribute:
+[ApiController]
+[Route("api/[controller]")]
+public class SampleController : ControllerBase
+{
+    [HttpGet]
+    [Authorize]
+    public IActionResult Get()
+    {
+        // Your API logic here
+    }
+}
+
