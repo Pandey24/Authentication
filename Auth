@@ -2,7 +2,7 @@
 //Authentication is the process of verifying the identity of a user or application trying to access the API.here are different authentication mechanisms you can use in .NET Core, such as: 
 
 //1.Token-based Authentication:
-    a. JWT (JSON Web Tokens) Authentication:
+    1.1. JWT (JSON Web Tokens) Authentication:
 JSON Web Tokens are a compact, URL-safe means of representing claims between two parties. They can be used for authenticating and authorizing users. 
 JWTs are often used in stateless authentication scenarios where the server doesn't need to store user sessions.
 They consist of three parts: a header, a payload, and a signature. Here's an explanation of each part and an example of a JWT:
@@ -52,4 +52,8 @@ public class SampleController : ControllerBase
         // Your API logic here
     }
 }
+
+
+1.2 . OAuth Authentication:
+Third-party authentication and authorization for allowing users to sign in with external accounts (e.g., Google, Facebook).
 
